@@ -48,6 +48,12 @@ Search for all `failed`|`completed`|`in-progress`|`scheduled`|`running` jobs.  `
 curl --request GET  --url 'http://localhost:8080/transcript/search?jobStatus=failed'
 ```
 
+Run a job and poll for the result using a bash script (requires HTTPie and jq):
+
+```sh
+./scripts/createAndPoll.sh
+```
+
 ## Notes
 
 I created a simple Job framework to acquire work from a Postgres data store.  There are two job created for it.  For expediency, they use the job table to store their results instead of creating new tables to store their output.

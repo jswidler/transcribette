@@ -145,7 +145,7 @@ const findTranscriptions = async (statuses?: string[], userId?: string) => {
     throw new Error("Must provide userId or status");
   }
   let result;
-  if (userId && status) {
+  if (userId && statuses) {
     result = await Database.query(`SELECT * FROM "job" WHERE "user_id" = $1 AND "status" = ANY($2)`, [userId, statuses]);
   } else if (userId) {
     result = await Database.query(`SELECT * FROM "job" WHERE "user_id" = $1`, [userId]);

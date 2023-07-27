@@ -29,14 +29,13 @@ export interface Job {
 // Create a job in the database and schedule it to run immediately.
 export const createJob = async (jobType: string, userId: string, jobArgs: any) => {
   const jobId = ulid();
-  const now = new Date().toUTCString();
   await Database.query(
     `INSERT INTO job (
         job_id, user_id, created_at, updated_at, status, attempts, run_at, type, args
       ) VALUES (
-        $1, $2, $3, $4, $5, $6, $7, $8, $9
+        $1, $2, NOW(), NOW(), $3, $4, NOW(), $5, $6
       )`,
-    [jobId, userId, now, now, "scheduled", 0, now, jobType, jobArgs]
+    [jobId, userId, "scheduled", 0, jobType, jobArgs]
   );
   scheduleJobs();
   return jobId;

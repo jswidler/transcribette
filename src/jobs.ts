@@ -124,7 +124,7 @@ const refreshStaleJobs = async () => {
   const result = await Database.query(
     `WITH stale AS (
     SELECT * FROM "job" WHERE "status" = 'running' AND updated_at < NOW() - INTERVAL '1 second' * $3
-    LIMIT 100 FOR UPDATE SKIP LOCKED
+    FOR UPDATE SKIP LOCKED
   )
   UPDATE "job" j SET 
       "status" = CASE WHEN j.attempts >= $2 THEN 'failed' ELSE 'scheduled' END,

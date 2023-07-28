@@ -56,10 +56,10 @@ Run a job and poll for the result using a bash script (requires HTTPie and jq):
 
 ## Notes
 
-I created a simple Job framework to acquire work from a Postgres data store.  There are two job created for it.  For expediency, they use the job table to store their results instead of creating new tables to store their output.
+I created a simple Job framework to acquire work from a Postgres data store.  There are two jobs created for it.  For expediency, they use the job table to store their results instead of creating new tables to store their output.
 
 I created a simple Pool to manage concurrency limits.  A Pool is used by the Job framework to limit the number of concurrent jobs.  A separate Pool is used by the `transcribeChunk` job to limit the number of concurrent API calls to the mock API.
 
 All jobs will be retried automatically, up to 3 times (or depending on configuration in the settings file).  If a job fails too many times, it will be marked as `failed` and will not be retried, even if the retry limit is changed.  While below the retry setting, a failed job will be retried by setting its status to `scheduled` instead of `failed`.
 
-If the server crashes or otherwise fails to reback a result to the Job table, it will be noticed as being stale once enough time has passed; as dictated by the `jobStaleTimeoutSeconds` setting.  When a job is noticed as being stale, it will be handled as if it had failed, and either retried or marked as `failed` depending on the number of previous attempts.
+If the server crashes or otherwise fails to write back a result to the Job table, it will be noticed as being stale once enough time has passed; as dictated by the `jobStaleTimeoutSeconds` setting.  When a job is noticed as being stale, it will be handled as if it had failed, and either retried or marked as `failed` depending on the number of previous attempts.
